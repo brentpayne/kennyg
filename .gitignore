@@ -1,0 +1,4 @@
+*py[c|o]
+.idea
+.tox
+*egg-info

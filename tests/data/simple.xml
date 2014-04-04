@@ -1,0 +1,31 @@
+<a>
+    <b attr="attr_value">
+        3 numbers
+        <c>1</c>
+        <c>2</c>
+        <c>3</c>
+    </b>
+    <b attr="attr_value2">
+        3 numbers
+        <c>4</c>
+        <c>5</c>
+        <c>6</c>
+    </b>
+    <d d_attr="d_attr_value"/>
+    <e>
+        e_value
+    </e>
+    <f></f>
+    <g>
+
+    </g>
+    <h>
+        <i>i_value</i>
+        h_value
+    </h>
+    <j>
+        j_value1
+        <k><l>l_value</l></k>
+        j_value2
+    </j>
+</a>
