@@ -1,4 +1,6 @@
 kennyg
 ======
 
-Need a smooth easy and jazzy SAX parser, kennyg is for you.
+KennyG is a python SAX Handler that reduces the amount of boilerplate needed to parse data from XML.
+
+

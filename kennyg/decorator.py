@@ -2,9 +2,12 @@ from UserDict import IterableUserDict
 
 __author__ = 'brent'
 
-class BaseDecorator(object):
-    def __init__(self, obj):
+
+class BaseDecorator(object, IterableUserDict):
+    def __init__(self, obj, *args, **kwargs):
+        super(BaseDecorator, self).__init__(*args, **kwargs)
         self.obj = obj
+        self.data = obj
 
         def start(*args, **kwargs):
             return self.obj.start(*args, **kwargs)
@@ -21,10 +24,16 @@ class BaseDecorator(object):
         if hasattr(obj, 'end') and not hasattr(self, 'end'):
             setattr(self, 'end', end)
 
-class CaptureKeyValue(BaseDecorator, IterableUserDict):
+    #
+    #def __getattribute__(self, name):
+    #    rv = super(BaseDecorator, self).__getattribute__(name)
+    #    if not rv:
+    #        rv = self.obj.__getattribute__(name)
+    #    return rv
+
+class CaptureKeyValue(BaseDecorator):
     def __init__(self, obj, dictionary_callback=None):
         super(CaptureKeyValue, self).__init__(obj)
-        self.data = obj
         # the callback allows the owner to swap out dictionaries
         if dictionary_callback is not None:
             self.dictionary_callback = dictionary_callback
@@ -39,10 +48,9 @@ class CaptureKeyValue(BaseDecorator, IterableUserDict):
         return self.dictionary_callback()
 
 
-class CaptureListItem(BaseDecorator, IterableUserDict):
+class CaptureListItem(BaseDecorator):
     def __init__(self, obj, list_callback=None):
         super(CaptureListItem, self).__init__(obj)
-        self.data = obj
         # the callback allows the owner to swap out lists
         if list_callback is not None:
             self.list_callback = list_callback
@@ -54,4 +62,3 @@ class CaptureListItem(BaseDecorator, IterableUserDict):
         value = self.data.value(value)
         self.list_callback().append(value)
         return self.list_callback()
-

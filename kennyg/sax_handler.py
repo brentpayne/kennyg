@@ -2,6 +2,7 @@ from xml.sax import ContentHandler
 
 __author__ = 'brent'
 
+ALL_TAGS = '*'
 
 class KennyGSAXHandler(ContentHandler):
     def __init__(self, action_tree, verbose=False, *args, **kwargs):
@@ -10,7 +11,7 @@ class KennyGSAXHandler(ContentHandler):
         self.action_tree = action_tree
         self.current_tree = []
         self.verbose = verbose
-        self.ALLTAGS = '*'
+        self.ALL_TAGS = ALL_TAGS
 
     def is_valid(self, name=None):
         """
@@ -20,10 +21,13 @@ class KennyGSAXHandler(ContentHandler):
         invalid = False
         for item in self.current_tree:
             try:
-                valid_tags = valid_tags[item if item in valid_tags else self.ALLTAGS] \
-                    if item in valid_tags or self.ALLTAGS in valid_tags else None
-                # DEBUG print self.current_tree, item, valid_tags
-            except (KeyError, TypeError) as _:  # object is either missing the key or is not a dictionary type
+                if item in valid_tags or self.ALL_TAGS in valid_tags:
+                    valid_tags = valid_tags[item if item in valid_tags else self.ALL_TAGS]
+                else:
+                    valid_tags = None
+                    invalid = True
+                    break
+            except (KeyError, TypeError) as e:  # object is either missing the key or is not a dictionary type
                 invalid = True
                 break
         return not invalid and valid_tags is not None
@@ -33,9 +37,9 @@ class KennyGSAXHandler(ContentHandler):
         found = True
         for item in self.current_tree:
             try:
-                if item in action_tree or self.ALLTAGS in action_tree:
+                if item in action_tree or self.ALL_TAGS in action_tree:
                     try:
-                        action_tree = action_tree[item if item in action_tree else self.ALLTAGS]
+                        action_tree = action_tree[item if item in action_tree else self.ALL_TAGS]
                     except KeyError as _:  # action_tree is missing this item and does not contain ALLTAGS
                         found = False
                         break
@@ -57,22 +61,20 @@ class KennyGSAXHandler(ContentHandler):
             # Will throw an exception if action is not a function, or does not take the arguments provided
             action_obj[action](*values, **kwargs)
 
-
     def startElement(self, name, attrs):
         self.current_tree.append(name)
         if self.is_valid():
             self.current_value = ""
             if self.verbose:
                 print("    " * len(self.current_tree) + name )
-            self.action('start')
-
+            self.action('start', name, **attrs)
 
     def endElement(self, name):
         if self.is_valid():
             if self.verbose:
                 print("    " * len(self.current_tree) + name )
-            self.action('value', self.current_value)
-            self.action('end')
+            self.action('value', self.current_value, name)
+            self.action('end', name)
         p = self.current_tree.pop()
         assert p == name
 
