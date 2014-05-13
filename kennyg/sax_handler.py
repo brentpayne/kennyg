@@ -13,7 +13,7 @@ class KennyGSAXHandler(ContentHandler):
         self.verbose = verbose
         self.ALL_TAGS = ALL_TAGS
 
-    def is_valid(self, name=None):
+    def is_valid(self, name=None, debug=False):
         """
         Check to see if the current xml path is to be processed.
         """
@@ -30,6 +30,8 @@ class KennyGSAXHandler(ContentHandler):
             except (KeyError, TypeError) as e:  # object is either missing the key or is not a dictionary type
                 invalid = True
                 break
+        if debug:
+            print name, not invalid and valid_tags is not None
         return not invalid and valid_tags is not None
 
     def get_action_obj(self, action):
@@ -70,7 +72,7 @@ class KennyGSAXHandler(ContentHandler):
             self.action('start', name, **attrs)
 
     def endElement(self, name):
-        if self.is_valid():
+        if self.is_valid(name, debug=False):
             if self.verbose:
                 print("    " * len(self.current_tree) + name )
             self.action('value', self.current_value, name)

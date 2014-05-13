@@ -42,10 +42,17 @@ class CaptureKeyValue(BaseDecorator):
             self.dictionary_callback = lambda: dd
 
     def value(self, value, *args, **kwargs):
-        print value
-        dict_value = self.data.value(value)
-        self.dictionary_callback().update(dict_value)
-        return self.dictionary_callback()
+        try:
+            dict_value = self.data.value(value)
+        except AttributeError as _:
+            try:
+                dict_value = self.data['value'](value)
+            except KeyError as _:
+                dict_value = None
+        if dict_value:
+            self.dictionary_callback().update(dict_value)
+        rv = self.dictionary_callback()
+        return rv
 
 
 class CaptureListItem(BaseDecorator):

@@ -71,6 +71,23 @@ class ValueCollector(Collector):
         return self.collection
 
 
+class ListCollector(Collector):
+    def __init__(self, *args, **kw):
+        super(ValueCollector,self).__init__(*args, **kw)
+        self.collection = []
+
+    def _decorator(self, value):
+        if hasattr(value, 'value'):
+            value = CaptureListItem(value, list_callback=lambda: self.collection)
+        return value
+
+    def start(self, *args, **kwargs):
+        self.collection = []
+
+    def value(self, *args, **kwargs):
+        return self.collection
+
+
 class KeyValueCollector(Collector):
     def __init__(self, *args, **kw):
         super(KeyValueCollector,self).__init__(*args, **kw)
@@ -92,7 +109,7 @@ class Value(object):
     """
     Returns the value provided for an element
     """
-    def value(self, value):
+    def value(self, value, *args, **kwargs):
         return value
 
 
@@ -104,6 +121,9 @@ class DateValue(BaseDecorator):
         self.format = format
 
     def value(self, value, *args, **kwargs):
+        """
+        Takes a string value and returns the Date based on the format
+        """
         from datetime import datetime
         value = self.obj.value(value, *args, **kwargs)
         try:
@@ -135,6 +155,8 @@ class KeyValue(BaseDecorator):
 class RecursiveKeyValueCollector(KeyValueCollector, SingletonCollectorMixIn):
     def __init__(self, *args, **kwargs):
         super(RecursiveKeyValueCollector, self).__init__(*args, **kwargs)
+        self.args = args
+        self.kwargs = kwargs
 
     def __contains__(self, item):
         return True
@@ -143,7 +165,7 @@ class RecursiveKeyValueCollector(KeyValueCollector, SingletonCollectorMixIn):
         try:
             v = super(RecursiveKeyValueCollector, self).__getitem__(item)
         except KeyError as _:
-            v = RecursiveKeyValueCollector()
+            v = RecursiveKeyValueCollector(*self.args, **self.kwargs)
             self[item] = v
         return v
 

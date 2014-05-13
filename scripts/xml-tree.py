@@ -1,7 +1,6 @@
-from collections import defaultdict
-from kennyg.element import KeyValueCollector, RecursiveKeyValueCollector
+from kennyg.element import RecursiveKeyValueCollector
 from kennyg.parser import parse
-from kennyg.sax_handler import KennyGSAXHandler, ALL_TAGS
+from kennyg.sax_handler import KennyGSAXHandler
 
 __author__ = 'brent'
 
