@@ -68,7 +68,7 @@ office_desk_owner = {
 }
 
 kg = KennyGSAXHandler(action_tree={'a':{'b':{'c':{'value':lambda x, *args: d.append(x)}}}})
-parse(, kg)
+parse(xml, kg)
 
 ```
 
