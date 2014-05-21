@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='KennyG',
-    version='0.1.2',
+    version='0.1.3',
     description='KennyG SAX Handler',
     long_description=\
         'KennyG create a smooth and easy way to setup and parse SAX data.',
