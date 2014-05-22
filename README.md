@@ -61,14 +61,15 @@ office_desk_owner = {
   "office": {
     "desk": {
       "owner": {
-        "value": lambda value, *attr: oweners_names.append(value)
+        "value": lambda value, *attr: owners_names.append(value)
       }
     }
   }
 }
 
-kg = KennyGSAXHandler(action_tree={'a':{'b':{'c':{'value':lambda x, *args: d.append(x)}}}})
+kg = KennyGSAXHandler(action_tree=office_desk_owner)
 parse(xml, kg)
+print owner_names
 
 ```
 
