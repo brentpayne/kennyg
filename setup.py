@@ -4,7 +4,7 @@ from distutils.core import setup
 
 readme = ""
 with open('README.md', 'r') as fp:
-    readme = '\n'.join(fp)
+    readme = ''.join(fp)
 
 long_description = 'KennyG create a smooth and easy way to setup and parse' +\
     'SAX data.' + readme
