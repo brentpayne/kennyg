@@ -20,7 +20,6 @@ setup(
     author='Brent Payne',
     author_email='brent.payne@gmail.com',
     url='http://www.github.com/brentpayne/kennyg',
-    install_requires=[''],
     scripts=[
         'scripts/xml-tree.py',
     ],
