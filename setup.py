@@ -14,7 +14,7 @@ def readme():
 
 setup(
     name='kennyg',
-    version='0.1.4',
+    version='0.1.5',
     description='KennyG SAX Handler',
     long_description=readme(),
     author='Brent Payne',
