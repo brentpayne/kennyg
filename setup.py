@@ -3,20 +3,11 @@
 from distutils.core import setup
 
 
-def readme():
-    try:
-        import pypandoc
-        description = pypandoc.convert('README.md', 'rst')
-    except (IOError, ImportError, OSError):
-        description = "Could not convert Markdown to reST\n" +\
-            open('README.md').read()
-    return description
-
 setup(
     name='kennyg',
     version='0.1.5',
     description='KennyG SAX Handler',
-    long_description=readme(),
+    long_description="A developer friendly library for writing SAX XML parsers.",
     author='Brent Payne',
     author_email='brent.payne@gmail.com',
     url='http://www.github.com/brentpayne/kennyg',
