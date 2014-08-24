@@ -128,7 +128,7 @@ class DateValue(BaseDecorator):
         value = self.obj.value(value, *args, **kwargs)
         try:
             rv = datetime.strptime(value, self.format)
-        except ValueError as _:
+        except ValueError as _:  # noqa
             rv = None
         return rv
 
@@ -164,7 +164,7 @@ class RecursiveKeyValueCollector(KeyValueCollector, SingletonCollectorMixIn):
     def __getitem__(self, item):
         try:
             v = super(RecursiveKeyValueCollector, self).__getitem__(item)
-        except KeyError as _:
+        except KeyError as _:  # noqa
             v = RecursiveKeyValueCollector(*self.args, **self.kwargs)
             self[item] = v
         return v

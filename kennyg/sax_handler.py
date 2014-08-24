@@ -42,13 +42,13 @@ class KennyGSAXHandler(ContentHandler):
                 if item in action_tree or self.ALL_TAGS in action_tree:
                     try:
                         action_tree = action_tree[item if item in action_tree else self.ALL_TAGS]
-                    except KeyError as _:  # action_tree is missing this item and does not contain ALLTAGS
+                    except KeyError as _:  # action_tree is missing this item and does not contain ALLTAGS  # noqa
                         found = False
                         break
                 else:
                     found = False
                     break
-            except TypeError as _: # action_tree is not of type dictionary
+            except TypeError as _: # action_tree is not of type dictionary  # noqa
                 found = False
                 break
         return action_tree if found else None

@@ -29,7 +29,7 @@ def test_key_value_collector():
     exception = False
     try:
         v = vc.collection['H']
-    except KeyError as _:
+    except KeyError as _:  # noqa
         exception = True
     assert exception
 
@@ -42,6 +42,7 @@ def test_value_collector():
     print vc.collection
     assert ''.join(vc.collection[0]) == '123'
     assert ''.join(vc.collection[1]) == '456'
+
 
 def test_keyvalue_list():
     xml = "<a><b><c>agent</c></b></a>"

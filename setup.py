@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name='kennyg',
-    version='0.1.5',
+    version='0.1.6',
     description='KennyG SAX Handler',
     long_description="A developer friendly library for writing SAX XML parsers.",
     author='Brent Payne',
