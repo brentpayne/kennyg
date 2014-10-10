@@ -68,7 +68,7 @@ office_desk_owner = {
 }
 
 kg = KennyGSAXHandler(action_tree=office_desk_owner)
-parse(xml, kg)
+parseString(xml, kg)
 print owner_names
 
 ```
